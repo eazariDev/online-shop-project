@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'shop.apps.ShopConfig',
+    'cart.apps.CartConfig',
+    
     
 ]
 
@@ -128,3 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # media path
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# session settings
+CART_SESSION_ID = "cart"
