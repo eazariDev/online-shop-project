@@ -7,6 +7,7 @@ from django.urls import reverse
 from orders.models import Order
 import stripe
 
+from .tasks import payment_completed_notification
 
 # stripe instance
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -61,6 +62,11 @@ def payment_process(request):
         
         
 def payment_completed(request):
+    order_id = request.session.get("order_id")
+    order = get_object_or_404(Order, id=order_id)
+    order.paid = True
+    order.save()
+    payment_completed_notification.delay(order.id)
     return render(request, "payment/completed.html")
     
 def payment_canceled(request):
