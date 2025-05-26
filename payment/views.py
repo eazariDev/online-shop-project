@@ -79,6 +79,7 @@ def payment_completed(request):
     order = get_object_or_404(Order, id=order_id)
     order.paid = True
     order.save()
+    request.session['coupon_id'] = None
     
     #save items bought for product recommendation
     product_ids = order.items.values_list('product_id')

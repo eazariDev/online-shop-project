@@ -95,6 +95,7 @@ class Cart:
                 pass
         return None
     
+    
     def get_discount(self):
         if self.coupon:
             return (
