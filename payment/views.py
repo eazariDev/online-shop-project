@@ -9,6 +9,10 @@ import stripe
 
 from .tasks import payment_completed_notification
 
+from shop.models import Product
+from shop.recommender import Recommender
+
+
 # stripe instance
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.api_version=settings.STRIPE_API_VERSION
@@ -50,7 +54,6 @@ def payment_process(request):
             )
             
             # add coupon to stripe
-            print(order.discount)
             if order.coupon:
                 stripe_coupon = stripe.Coupon.create(
                     name=order.coupon.code,
@@ -76,6 +79,15 @@ def payment_completed(request):
     order = get_object_or_404(Order, id=order_id)
     order.paid = True
     order.save()
+    
+    #save items bought for product recommendation
+    product_ids = order.items.values_list('product_id')
+    products = Product.objects.filter(id__in=product_ids)
+    r = Recommender()
+    r.products_bought(products)
+    
+    
+    # launch celery task
     payment_completed_notification.delay(order.id)
     return render(request, "payment/completed.html")
     
