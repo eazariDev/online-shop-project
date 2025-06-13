@@ -1,9 +1,11 @@
 <div id="top">
 
 <!-- HEADER STYLE: COMPACT -->
-<img src="logo.png" width="30%" align="left" style="margin-right: 15px">
+<img src="logo.png" width="30%" align="left" style="margin-right: 20px">
 
-# ONLINE-SHOP-PROJECT
+<br />
+<br />
+<h1> ONLINE-SHOP-PROJECT </h1>
 <em></em>
 
 <!-- BADGES -->
